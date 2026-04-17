@@ -106,6 +106,14 @@ strong { color: #fff; }
 .btn--ghost:hover { border-color: rgba(255,255,255,.25); color: var(--text); }
 
 /* ── Badge ── */
+.hero__byline {
+  font-size: .88rem;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+  letter-spacing: .01em;
+}
+.hero__byline strong { color: var(--cyan); }
+
 .badge {
   display: inline-block;
   font-size: .8rem;
