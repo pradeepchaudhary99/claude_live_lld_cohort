@@ -732,7 +732,7 @@ strong { color: #fff; }
 /* ── RESPONSIVE ── */
 @media (max-width: 900px) {
   .hero__grid      { grid-template-columns: 1fr; }
-  .hero__visual    { display: none; }
+  .hero__visual    { display: block; margin-top: 32px; }
   .problem__grid   { grid-template-columns: 1fr; }
   .curriculum__grid{ grid-template-columns: 1fr; }
   .about__grid     { grid-template-columns: 1fr; }
