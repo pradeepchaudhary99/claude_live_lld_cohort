@@ -656,14 +656,16 @@ strong { color: #fff; }
   gap: 56px;
   align-items: center;
 }
-.masterclass__visual { border-radius: 20px; overflow: hidden; }
+.masterclass__visual {
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: var(--shadow), 0 0 0 1px var(--border);
+}
 .masterclass__img {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
   border-radius: 20px;
   display: block;
-  box-shadow: 0 0 60px rgba(99,102,241,.15);
 }
 .masterclass__title {
   font-size: clamp(1.5rem, 3vw, 2rem);
@@ -687,6 +689,11 @@ strong { color: #fff; }
 .masterclass__perks li { font-size: .92rem; color: var(--text-muted); }
 .masterclass__form-placeholder {
   min-height: 60px;
+}
+.masterclass__cta {
+  display: block;
+  text-align: center;
+  width: 100%;
 }
 @media (max-width: 768px) {
   .masterclass__grid { grid-template-columns: 1fr; gap: 32px; }
