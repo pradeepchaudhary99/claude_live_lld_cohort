@@ -22,8 +22,8 @@ navLinks.querySelectorAll('a').forEach(a => {
 // FAB
 const fab = document.getElementById('fab');
 
-// Countdown timer — target: May 5, 2026 8:00 PM IST (UTC+5:30)
-const target = new Date('2026-04-27T14:30:00Z'); // 8PM IST = 14:30 UTC
+// Countdown timer — target: May 15, 2026 10:00 AM IST (UTC+5:30)
+const target = new Date('2026-05-18T04:30:00Z'); // 10AM IST = 04:30 UTC
 function updateCountdown() {
   const now = new Date();
   const diff = target - now;
