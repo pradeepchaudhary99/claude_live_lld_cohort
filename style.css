@@ -92,18 +92,18 @@ strong { color: #fff; }
 .btn--lg  { font-size: 1rem;   padding: 14px 30px; border-radius: 12px; }
 
 .btn--primary {
-  background: linear-gradient(135deg, #06b6d4, #6366f1);
+  background: linear-gradient(135deg, rgba(199, 51, 45, 0.876), #ff0099);
   color: #fff;
   box-shadow: 0 4px 20px rgba(99,102,241,.35);
 }
-.btn--primary:hover { box-shadow: 0 8px 32px rgba(99,102,241,.5); }
+.btn--primary:hover { box-shadow: 0 8px 32px rgba(119, 121, 235, 0.5); }
 
 .btn--ghost {
   background: transparent;
   color: var(--text-muted);
   border: 1.5px solid var(--border);
 }
-.btn--ghost:hover { border-color: rgba(255,255,255,.25); color: var(--text); }
+.btn--ghost:hover { border-color: rgba(97, 11, 11, 0.25); color: var(--text); }
 
 /* ── Badge ── */
 .hero__byline {
