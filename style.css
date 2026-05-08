@@ -550,6 +550,45 @@ strong { color: #fff; }
 }
 .reels-grid .instagram-media { margin: 0 !important; min-width: unset !important; }
 
+/* ── DEMO RECORDINGS ── */
+.demo-recordings { background: var(--bg1); }
+.demo-list { display: flex; flex-direction: column; gap: 16px; margin-top: 48px; }
+.demo-list__item {
+  display: flex; align-items: center; gap: 24px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px 24px;
+  transition: border-color .2s, box-shadow .2s;
+}
+.demo-list__item:hover { border-color: var(--accent); box-shadow: 0 4px 20px rgba(0,0,0,.25); }
+.demo-list__num {
+  font-size: 1.6rem; font-weight: 900;
+  color: var(--accent); opacity: .4;
+  min-width: 40px;
+}
+.demo-list__info { flex: 1; }
+.demo-list__info h4 { font-size: 1rem; font-weight: 700; margin-bottom: 4px; }
+.demo-list__info p { font-size: .85rem; color: var(--text-muted); margin: 0; line-height: 1.5; }
+.demo-list__meta { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+.demo-list__link {
+  background: var(--accent); color: #fff;
+  padding: 8px 18px; border-radius: 8px;
+  font-size: .85rem; font-weight: 600;
+  text-decoration: none; white-space: nowrap;
+  transition: opacity .2s;
+}
+.demo-list__link:hover { opacity: .85; }
+.demo-list__passcode { font-size: .8rem; color: var(--text-muted); white-space: nowrap; }
+.demo-list__passcode code {
+  background: var(--bg3); padding: 2px 6px;
+  border-radius: 4px; font-family: monospace; color: var(--text);
+}
+@media (max-width: 700px) {
+  .demo-list__item { flex-direction: column; align-items: flex-start; }
+  .demo-list__meta { align-items: flex-start; }
+}
+
 /* ── PRICING ── */
 .pricing { background: var(--bg2); }
 
