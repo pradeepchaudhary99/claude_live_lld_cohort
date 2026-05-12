@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>60-Day LLD Roadmap</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #faf7f2;
+    --surface: #ffffff;
+    --surface2: #f3ede3;
+    --border: #e8ddd0;
+    --border2: #d4c5b0;
+    --ink: #1a1410;
+    --muted: #8a7a6a;
+    --accent: #c84b2f;
+    --accent2: #2d6a4f;
+    --accent3: #b5860d;
+    --accent4: #1a4a7a;
+    --tag-red: rgba(200,75,47,0.12);
+    --tag-green: rgba(45,106,79,0.12);
+    --tag-amber: rgba(181,134,13,0.12);
+    --tag-blue: rgba(26,74,122,0.12);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Subtle paper texture overlay */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 999;
+    opacity: 0.4;
+  }
+
+  .container {
+    max-width: 1060px;
+    margin: 0 auto;
+    padding: 48px 24px 100px;
+  }
+
+  /* ─── HEADER ─── */
+  .header {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: start;
+    gap: 24px;
+    margin-bottom: 52px;
+    padding-bottom: 36px;
+    border-bottom: 2px solid var(--ink);
+  }
+
+  .header-left .eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 12px;
+  }
+
+  .header-left h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.4rem, 5vw, 4rem);
+    font-weight: 900;
+    line-height: 1.05;
+    color: var(--ink);
+  }
+
+  .header-left h1 span {
+    color: var(--accent);
+  }
+
+  .header-left .subtitle {
+    margin-top: 14px;
+    font-size: 14px;
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+    line-height: 1.6;
+  }
+
+  .header-right {
+    text-align: right;
+    padding-top: 8px;
+  }
+
+  .header-right .big-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 5rem;
+    font-weight: 900;
+    color: var(--border2);
+    line-height: 1;
+  }
+
+  .header-right .big-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* ─── STATS ─── */
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 36px;
+  }
+
+  .stat-cell {
+    background: var(--surface);
+    padding: 20px 18px;
+    text-align: center;
+  }
+
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .stat-lbl {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* ─── PROGRESS ─── */
+  .progress-bar-wrap {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 18px 22px;
+    margin-bottom: 40px;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    flex-wrap: wrap;
+  }
+
+  .progress-lbl {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    min-width: 110px;
+  }
+
+  .bar-track {
+    flex: 1;
+    height: 6px;
+    background: var(--border);
+    border-radius: 99px;
+    overflow: hidden;
+    min-width: 160px;
+  }
+
+  .bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--accent3));
+    border-radius: 99px;
+    transition: width 0.4s ease;
+    width: 0%;
+  }
+
+  .progress-pct {
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    color: var(--accent);
+    min-width: 70px;
+    text-align: right;
+  }
+
+  /* ─── PHASE NAV ─── */
+  .phase-nav {
+    display: flex;
+    gap: 0;
+    margin-bottom: 40px;
+    border: 1px solid var(--border2);
+    border-radius: 8px;
+    overflow: hidden;
+    flex-wrap: wrap;
+  }
+
+  .phase-btn {
+    flex: 1;
+    padding: 12px 16px;
+    border: none;
+    border-right: 1px solid var(--border2);
+    background: var(--surface);
+    color: var(--muted);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+    text-align: center;
+  }
+
+  .phase-btn:last-child { border-right: none; }
+  .phase-btn:hover { background: var(--surface2); color: var(--ink); }
+
+  .phase-btn.active {
+    background: var(--ink);
+    color: var(--bg);
+  }
+
+  /* ─── PHASE CONTENT ─── */
+  .phase-content { display: none; }
+  .phase-content.active { display: block; }
+
+  /* ─── PHASE HEADER ─── */
+  .phase-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 28px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border2);
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .phase-title-group {}
+
+  .phase-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+
+  .phase-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--ink);
+  }
+
+  .phase-pill {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 6px 14px;
+    border-radius: 99px;
+    border: 1.5px solid;
+    letter-spacing: 1px;
+    white-space: nowrap;
+  }
+
+  /* ─── WEEK CARDS ─── */
+  .week-grid { display: flex; flex-direction: column; gap: 16px; }
+
+  .week-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    transition: box-shadow 0.2s, border-color 0.2s;
+  }
+
+  .week-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.07); }
+
+  .week-header {
+    display: flex;
+    align-items: center;
+    padding: 16px 20px;
+    cursor: pointer;
+    user-select: none;
+    gap: 14px;
+  }
+
+  .week-day-range {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    padding: 3px 8px;
+    border-radius: 4px;
+    white-space: nowrap;
+    letter-spacing: 0.5px;
+  }
+
+  .week-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--ink);
+    flex: 1;
+    line-height: 1.3;
+  }
+
+  .week-progress-mini {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--accent2);
+    white-space: nowrap;
+  }
+
+  .week-caret {
+    color: var(--muted);
+    font-size: 14px;
+    transition: transform 0.3s;
+    flex-shrink: 0;
+  }
+
+  .week-card.open .week-caret { transform: rotate(180deg); }
+
+  .week-body {
+    display: none;
+    padding: 4px 20px 22px;
+    border-top: 1px solid var(--border);
+  }
+
+  .week-card.open .week-body { display: block; }
+
+  /* ─── TOPICS ─── */
+  .section-heading {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 18px 0 10px;
+  }
+
+  .topic-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 9px 0;
+    border-bottom: 1px dashed var(--border);
+    cursor: pointer;
+    transition: background 0.1s;
+  }
+
+  .topic-row:last-child { border-bottom: none; }
+  .topic-row:hover { background: var(--surface2); margin: 0 -20px; padding: 9px 20px; }
+
+  .t-box {
+    width: 17px; height: 17px;
+    border: 1.5px solid var(--border2);
+    border-radius: 3px;
+    flex-shrink: 0;
+    margin-top: 2px;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+  }
+
+  .topic-row.checked .t-box {
+    background: var(--accent2);
+    border-color: var(--accent2);
+  }
+
+  .topic-row.checked .t-box::after {
+    content: '✓';
+    color: #fff;
+    font-size: 10px;
+    font-weight: 700;
+  }
+
+  .t-text {
+    font-size: 14px;
+    color: var(--ink);
+    line-height: 1.5;
+    flex: 1;
+  }
+
+  .topic-row.checked .t-text {
+    color: var(--muted);
+    text-decoration: line-through;
+    text-decoration-color: var(--border2);
+  }
+
+  /* ─── QUESTIONS ─── */
+  .q-list { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
+
+  .q-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent3);
+    border-radius: 6px;
+    padding: 11px 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .q-row:hover { border-color: var(--accent3); box-shadow: 0 2px 8px rgba(181,134,13,0.1); }
+
+  .q-row.done {
+    border-left-color: var(--accent2);
+    opacity: 0.55;
+  }
+
+  .q-box {
+    width: 15px; height: 15px;
+    border: 1.5px solid var(--border2);
+    border-radius: 3px;
+    flex-shrink: 0;
+    margin-top: 2px;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+  }
+
+  .q-row.done .q-box {
+    background: var(--accent2);
+    border-color: var(--accent2);
+  }
+
+  .q-row.done .q-box::after {
+    content: '✓';
+    color: #fff;
+    font-size: 9px;
+    font-weight: 700;
+  }
+
+  .q-text {
+    font-size: 13px;
+    color: var(--ink);
+    flex: 1;
+    line-height: 1.5;
+  }
+
+  .diff {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    font-weight: 500;
+    padding: 2px 7px;
+    border-radius: 3px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+    margin-top: 2px;
+    flex-shrink: 0;
+  }
+
+  .d-easy { background: var(--tag-green); color: var(--accent2); border: 1px solid rgba(45,106,79,0.2); }
+  .d-med  { background: var(--tag-amber); color: var(--accent3); border: 1px solid rgba(181,134,13,0.2); }
+  .d-hard { background: var(--tag-red);   color: var(--accent);  border: 1px solid rgba(200,75,47,0.2); }
+  .d-design { background: var(--tag-blue); color: var(--accent4); border: 1px solid rgba(26,74,122,0.2); }
+
+  /* ─── TIP BOX ─── */
+  .tip-box {
+    margin-top: 20px;
+    border: 1px solid var(--border2);
+    border-left: 4px solid var(--accent);
+    border-radius: 6px;
+    padding: 16px 18px;
+    background: rgba(200,75,47,0.03);
+  }
+
+  .tip-box h4 {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 10px;
+  }
+
+  .tip-box ul { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+
+  .tip-box li {
+    font-size: 13px;
+    color: var(--muted);
+    padding-left: 18px;
+    position: relative;
+    line-height: 1.5;
+  }
+
+  .tip-box li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-size: 12px;
+  }
+
+  /* ─── DESIGN PATTERN BADGE ─── */
+  .pattern-tag {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    padding: 2px 7px;
+    border-radius: 3px;
+    background: var(--tag-blue);
+    color: var(--accent4);
+    border: 1px solid rgba(26,74,122,0.2);
+    margin-left: 6px;
+    vertical-align: middle;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  /* Phase color accents */
+  .phase-1 .phase-pill { color: var(--accent);  border-color: var(--accent);  background: var(--tag-red); }
+  .phase-2 .phase-pill { color: var(--accent2); border-color: var(--accent2); background: var(--tag-green); }
+  .phase-3 .phase-pill { color: var(--accent3); border-color: var(--accent3); background: var(--tag-amber); }
+  .phase-4 .phase-pill { color: var(--accent4); border-color: var(--accent4); background: var(--tag-blue); }
+
+  @media (max-width: 600px) {
+    .header { grid-template-columns: 1fr; }
+    .header-right { text-align: left; }
+    .stats-row { grid-template-columns: repeat(2,1fr); }
+    .phase-btn { font-size: 11px; padding: 10px 8px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-left">
+      <div class="eyebrow">Senior Engineering Interview Prep</div>
+      <h1>Low-Level Design<br><span>LLD Roadmap</span></h1>
+      <div class="subtitle">// OOP · Design Patterns · SOLID · Class Diagrams<br>// Track topics · practice problems · crack senior rounds</div>
+    </div>
+    <div class="header-right">
+      <div class="big-num">60</div>
+      <div class="big-label">Day Plan</div>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats-row">
+    <div class="stat-cell">
+      <div class="stat-num" id="s-days" style="color:var(--accent)">60</div>
+      <div class="stat-lbl">Days Total</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-num" id="s-topics" style="color:var(--accent2)">0</div>
+      <div class="stat-lbl">Topics Done</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-num" id="s-qs" style="color:var(--accent3)">0</div>
+      <div class="stat-lbl">Qs Practiced</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-num" id="s-pct" style="color:var(--accent4)">0%</div>
+      <div class="stat-lbl">Complete</div>
+    </div>
+  </div>
+
+  <!-- PROGRESS -->
+  <div class="progress-bar-wrap">
+    <div class="progress-lbl">Overall Progress</div>
+    <div class="bar-track"><div class="bar-fill" id="bar-fill"></div></div>
+    <div class="progress-pct" id="bar-text">0 / 0</div>
+  </div>
+
+  <!-- PHASE NAV -->
+  <div class="phase-nav">
+    <button class="phase-btn active" onclick="showPhase(0)">📐 OOP & SOLID</button>
+    <button class="phase-btn" onclick="showPhase(1)">🧩 Design Patterns</button>
+    <button class="phase-btn" onclick="showPhase(2)">🏛️ Class Diagrams & Systems</button>
+    <button class="phase-btn" onclick="showPhase(3)">🎯 Mock Problems</button>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PHASE 1 — OOP & SOLID (Days 1–15)
+  ══════════════════════════════════════════ -->
+  <div class="phase-content phase-1 active" id="phase-0">
+    <div class="phase-header">
+      <div class="phase-title-group">
+        <div class="phase-eyebrow">Phase One · Days 1–15</div>
+        <div class="phase-title">OOP Foundations & SOLID Principles</div>
+      </div>
+      <div class="phase-pill">DAYS 1–15</div>
+    </div>
+    <div class="week-grid">
+
+      <!-- Week 1 -->
+      <div class="week-card" id="wk-1">
+        <div class="week-header" onclick="toggleWeek('wk-1')">
+          <span class="week-day-range">DAYS 1–4</span>
+          <span class="week-title">OOP Core — Pillars Deep Dive</span>
+          <span class="week-progress-mini" id="p-wk-1">0/0</span>
+          <span class="week-caret">▼</span>
+        </div>
+        <div class="week-body">
+          <div class="section-heading">📚 Topics to Cover</div>
+          <div class="topic-row" onclick="toggleTopic(this)"><div class="t-box"></div><div class="t-text">Encapsulation — access modifiers, getter/setter design, immutability patterns</div></div>
+          <div class="topic-row" onclick="toggleTopic(this)"><div class="t-box"></div><div class="t-text">Abstraction — abstract classes vs interfaces, when to use each in Java/Python/C++</div></div>
+          <div class="topic-row" onclick="toggleTopic(this)"><div class="t-box"></div><div class="t-text">Inheritance — is-a vs has-a, composition over inheritance rule</div></div>
+          <div class="topic-row" onclick="toggleTopic(this)"><div class="t-box"></div><div class="t-text">Polymorphism — compile-time (overloading) vs runtime (overriding), virtual dispatch</div></div>
+          <div class="topic-row" onclick="toggleTopic(this)"><div class="t-box"></div><div class="t-text">Coupling vs Cohesion — high cohesion, loose coupling as design goals</div></div>
+          <div class="topic-row" onclick="toggleTopic(this)"><div class="t-box"></div><div class="t-text">Object relationships — Association, Aggregation, Composition (with UML notation)</div></div>
+
+          <div class="section-heading">❓ Practice Problems</div>
+          <div class="q-list">
+            <div class="q-row" onclick="toggleQ(this)"><div class="q-box"></div><div class="q-text">Design a Vehicle hierarchy — Car, Truck, ElectricCar. Show when to use inheritance vs composition.</div><span class="diff d-easy">Easy</span></div>
+            <div class="q-row" onclick="toggleQ(this)"><div class="q-box"></div><div class="q-text">Why is "composition over inheritance" preferred? Refactor a deep class hierarchy using composition.</div><span class="diff d-med">Medium</span></div>
+            <div class="q-row" onclick="toggleQ(this)"><div class="q-box"></div><div class="q-text">Design an Animal class hierarchy with polymorphic makeSound() that works for 10+ subclasses without if-else chains.</div><span class="diff d-med">Medium</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Week 2 -->
+      <div class="week-card" id="wk-2">
+        <div class="week-header" onclick="toggleWeek('wk-2')">
+          <span class="week-day-range">DAYS 5–9</span>
+          <span class="week-title">SOLID Principles — All Five In Depth</span>
+          <span class="week-progress-mini" id="p-wk-2">0/0</span>
+          <span class="week-caret">▼</span>
+        </div>
+        <div class="week-body">
+          <div class="section-heading">📚 Topics to Cover</div>
+          <div class="topic-row" onclick="toggleTopic(this)"><div class="t-box"></div><div class="t-text"><strong>S</strong> — Single Responsibility Principle: one class, one reason to change. God class antipattern.</div></div>
+          <div class="topic-row" onclick="toggleTopic(this)"><div class="t-box"></div><div class="t-text"><strong>O</strong> — Open/Closed Principle: open for extension, closed for modification. Strategy & Template patterns.</div></div>
+          <div class="topic-row" onclick="toggleTopic(this)"><div class="t-box"></div><div class="t-text"><strong>L</strong> — Liskov Substitution: subtypes must be substitutable. Classic Rectangle/Square violation.</div></div>
+          <div class="topic-row" onclick="toggleTopic(this)"><div class="t-box"></div><div class="t-text"><strong>I</strong> — Interface Segregation: many specific interfaces over one fat interface. Role-based interfaces.</div></div>
+          <div class="topic-row" onclick="toggleTopic(this)"><div class="t-box"></div><div class="t-text"><strong>D</strong> — Dependency Inversion: depend on abstractions, not concretions. DI containers, IoC.</div></div>
+          <div class="topic-row" onclick="toggleTopic(this)"><div class="t-box"></div><div class="t-text">SOLID violations in real code — how to identify and refactor them</div></div>
+
+          <div class="section-heading">❓ Practice Problems</div>
+          <div class="q-list">
+            <div class="q-row" onclick="toggleQ(this)"><div class="q-box"></div><div class="q-text">A UserService class handles DB persistence, email sending, and logging. Refactor it to follow SRP.</div><span class="diff d-easy">Easy</span></div>
+            <div class="q-row" onclick="toggleQ(this)"><div class="q-box"></div><div class="q-text">Show how a Square extending Rectangle violates LSP. How would you redesign the hierarchy?</div><span class="diff d-med">Medium</span></div>
+            <div class="q-row" onclick="toggleQ(this)"><div class="q-box"></div><div class="q-text">Design a payment processor that follows OCP — adding UPI/Crypto should not touch existing PayPal/Card code.</div><span class="diff d-hard">Hard</span></div>
+            <div class="q-row" onclick="toggleQ(this)"><div class="q-box"></div><div class="q-text">Apply all 5 SOLID principles to redesign a bloated OrderService with 20 methods into a clean system.</div><span class="diff d-hard">Hard</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Week 3 -->
+      <div class="week-card" id="wk-3">
+        <div class="week-header" onclick="toggleWeek('wk-3')">
+          <span class="week-day-range">DAYS 10–15</span>
+          <span class="week-title">DRY, KISS, YAGNI & Code Smells</span>
+          <span class="week-progress-mini" id="p-wk-3">0/0</span>
+          <span class="week-caret">▼</span>
+        </div>
+        <div class="week-body">
+          <div class="section-heading">📚 Topics to Cover</div>
+          <div class="topic-row" onclick="toggleTopic(this)"><div class="t-box"></div><div class="t-text">DRY — Don't Repeat Yourself. Recognizing and eliminating duplication at the right abstraction level</div></div>
+          <div class="topic-row" onclick="toggleTopic(this)"><div class="t-box"></div><div class="t-text">KISS & YAGNI — avoiding over-engineering, designing for current requirements</div></div>
+          <div class="topic-row" onclick="toggleTopic(this)"><div class="t-box"></div><div class="t-text">Code smells — Long Method, Feature Envy, Data Clumps, Shotgun Surgery, Divergent Change</div></div>
+          <div class="topic-row" onclick="toggleTopic(this)"><div class="t-box"></div><div class="t-text">Refactoring techniques — Extract Method, Extract Class, Move Method, Replace Conditional with Polymorphism</div></div>
+          <div class="topic-row" onclick="toggleTopic(this)"><div class="t-box"></div><div class="t-text">Law of Demeter — only talk to your immediate friends, avoid train-wreck calls</div></div>
+
+          <div class="section-heading">❓ Practice Problems</div>
+          <div class="q-list">
+            <div class="q-row" onclick="toggleQ(this)"><div class="q-box"></div><div class="q-text">Given a method with 80 lines doing validation, DB save, and email — refactor it following all principles.</div><span class="diff d-med">Medium</span></div>
+            <div class="q-row" onclick="toggleQ(this)"><div class="q-box"></div><div class="q-text">Identify 5 code smells in a given OrderProcessor class and provide a refactored version.</div><span class="diff d-med">Medium</span></div>
+          </div>
+          <div class="tip-box">
+            <h4>// Phase 1 Checkpoint</h4>
+            <ul>
+              <li>You should be able to critique any class design and point out SOLID violations instantly</li>
+              <li>Practice writing the same feature twice — once violating, once following SOLID</li>
+              <li>Read: Clean Code (Martin) Chapter 3, 6, 10 — essential for senior interviews</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PHASE 2 — DESIGN PATTERNS (Days 16–35)
+  ══════════════════════════════════════════ -->
+  <div class="phase-content phase-2" id="phase-1">
+    <div class="phase-header">
+      <div class="phase-title-group">
+        <div class="phase-eyebrow">Phase Two · Days 16–35</div>
+        <div class="phase-title">Gang of Four Design Patterns</div>
+      </div>
+      <div class="phase-pill">DAYS 16–35</div>
+    </div>
+    <div class="week-grid">
+
+      <!-- Creational -->
+      <div class="week-card" id="wk-4">
+        <div class="week-header" onclick="toggleWeek('wk-4')">
+          <span class="week-day-range">DAYS 16–20</span>
+          <span class="week-title">Creational Patterns <span class="pattern-tag">Creational</span></span>
+          <span class="week-progress-mini" id="p-wk-4">0/0</span>
+          <span class="week-caret">▼</span>
+        </div>
+        <div class="week-body">
+          <div class="section-heading">📚 Topics to Cover</div>
+          <div class="topic-row" onclick="toggleTopic(this)"><div class="t-box"></div><div class="t-text">Singleton — thread-safe implementation, double-checked locking, enum singleton in Java</div></div>
+          <div class="topic-row" onclick="toggleTopic(this)"><div class="t-box"></div><div class="t-text">Factory Method — defer instantiation to subclasses, when to use over direct new()</div></div>
+          <div class="topic-row" onclick="toggleTopic(this)"><div class="t-box"></div><div class="t-text">Abstract Factory — families of related objects, platform-independent UI example</div></div>
+          <div class="topic-row" onclick="toggleTopic(this)"><div class="t-box"></div><div class="t-text">Builder — step-by-step complex object construction, immutable objects, fluent interface</div></div>
+          <div class="topic-row" onclick="toggleTopic(this)"><div class="t-box"></div><div class="t-text">Prototype — clone-based creation, shallow vs deep copy implications</div></div>
+          <div class="topic-row" onclick="toggleTopic(this)"><div class="t-box"></div><div class="t-text">Object Pool — reusing expensive objects (DB connections, thread pools)</div></div>
+
+          <div class="section-heading">❓ Practice Problems</div>
+          <div class="q-list">
+            <div class="q-row" onclick="toggleQ(this)"><div class="q-box"></div><div class="q-text">Implement a thread-safe Singleton for a Logger class. Why is double-checked locking needed?</div><span class="diff d-easy">Easy</span></div>
+            <div class="q-row" onclick="toggleQ(this)"><div class="q-box"></div><div class="q-text">Design a Pizza ordering system using the Builder pattern — handle size, crust, toppings, extras.</div><span class="diff d-med">Medium</span></div>
+            <div class="q-row" onclick="toggleQ(this)"><div class="q-box"></div><div class="q-text">Design a cross-platform UI toolkit using Abstract Factory — Windows vs MacOS button/dialog creation.</div><span class="diff d-med">Medium</span></div>
+            <div class="q-row" onclick="toggleQ(this)"><div class="q-box"></div><div class="q-text">Design a Database Connection Pool using Object Pool pattern with max connections, timeout, and health checks.</div><span class="diff d-hard">Hard</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Structural -->
+      <div class="week-card" id="wk-5">
+        <div class="week-header" onclick="toggleWeek('wk-5')">
+          <span class="week-day-range">DAYS 21–27</span>
+          <span class="week-title">Structural Patterns <span class="pattern-tag">Structural</span></span>
+          <span class="week-progress-mini" id="p-wk-5">0/0</span>
+          <span class="week-caret">▼</span>
+        </div>
+        <div class="week-body">
+          <div class="section-heading">📚 Topics to Cover</div>
+          <div class="topic-row" onclick="toggleTopic(this)"><div class="t-box"></div><div class="t-text">Adapter — converting incompatible interfaces, wrapping legacy systems</div></div>
+          <div class="topic-row" onclick="toggleTopic(this)"><div class="t-box"></div><div class="t-text">Decorator — adding behaviour without subclassing, InputStream stack in Java</div></div>
+          <div class="topic-row" onclick="toggleTopic(this)"><div class="t-box"></div><div class="t-text">Facade — simplifying complex subsystems, API Gateway analogy</div></div>
+          <div class="topic-row" onclick="toggleTopic(this)"><div class="t-box"></div><div class="t-text">Proxy — virtual proxy (lazy loading), protection proxy, remote proxy</div></div>
+          <div class="topic-row" onclick="toggleTopic(this)"><div class="t-box"></div><div class="t-text">Composite — tree structures, file system hierarchy, UI component trees</div></div>
+          <div class="topic-row" onclick="toggleTopic(this)"><div class="t-box"></div><div class="t-text">Bridge — separating abstraction from implementation, avoiding class explosion</div></div>
+          <div class="topic-row" onclick="toggleTopic(this)"><div class="t-box"></div><div class="t-text">Flyweight — shared state for large numbers of fine-grained objects (game characters, text rendering)</div></div>
+
+          <div class="section-heading">❓ Practice Problems</div>
+          <div class="q-list">
+            <div class="q-row" onclick="toggleQ(this)"><div class="q-box"></div><div class="q-text">Design a Coffee shop ordering system using Decorator — espresso + milk + sugar + whip with individual pricing.</div><span class="diff d-med">Medium</span></div>
+            <div class="q-row" onclick="toggleQ(this)"><div class="q-box"></div><div class="q-text">Design a File System (File + Folder) using Composite — support getSize() recursively.</div><span class="diff d-med">Medium</span></div>
+            <div class="q-row" onclick="toggleQ(this)"><div class="q-box"></div><div class="q-text">Implement a caching Proxy for an expensive API service. Add rate limiting and TTL support.</div><span class="diff d-hard">Hard</span></div>
+            <div class="q-row" onclick="toggleQ(this)"><div class="q-box"></div><div class="q-text">Design a text editor's character rendering using Flyweight — support 10M characters with shared font state.</div><span class="diff d-hard">Hard</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Behavioural -->
+      <div class="week-card" id="wk-6">
+        <div class="week-header" onclick="toggleWeek('wk-6')">
+          <span class="week-day-range">DAYS 28–35</span>
+          <span class="week-title">Behavioural Patterns <span class="pattern-tag">Behavioural</span></span>
+          <span class="week-progress-mini" id="p-wk-6">0/0</span>
+          <span class="week-caret">▼</span>
+        </div>
+        <div class="week-body">
+          <div class="section-heading">📚 Topics to Cover</div>
+          <div class="topic-row" onclick="toggleTopic(this)"><div class="t-box"></div><div class="t-text">Observer / Event — event listeners, MVC model update, reactive streams</div></div>
+          <div class="topic-row" onclick="toggleTopic(this)"><div class="t-box"></div><div class="t-text">Strategy — encapsulate algorithms, runtime switching (sort, payment, discount strategies)</div></div>
+          <div class="topic-row" onclick="toggleTopic(this)"><div class="t-box"></div><div class="t-text">Command — encapsulate requests as objects, undo/redo, queue operations</div></div>
+          <div class="topic-row" onclick="toggleTopic(this)"><div class="t-box"></div><div class="t-text">State — FSM-based behaviour, order lifecycle, vending machine states</div></div>
+          <div class="topic-row" onclick="toggleTopic(this)"><div class="t-box"></div><div class="t-text">Chain of Responsibility — middleware pipelines, auth/logging/validation chains</div></div>
+          <div class="topic-row" onclick="toggleTopic(this)"><div class="t-box"></div><div class="t-text">Template Method — skeleton algorithm, subclass fills in steps (Game.play(), DataParser)</div></div>
+          <div class="topic-row" onclick="toggleTopic(this)"><div class="t-box"></div><div class="t-text">Iterator — uniform traversal without exposing internals</div></div>
+          <div class="topic-row" onclick="toggleTopic(this)"><div class="t-box"></div><div class="t-text">Mediator — centralize communications between objects (chat room, air traffic control)</div></div>
+
+          <div class="section-heading">❓ Practice Problems</div>
+          <div class="q-list">
+            <div class="q-row" onclick="toggleQ(this)"><div class="q-box"></div><div class="q-text">Design an e-commerce discount system using Strategy — percentage, fixed, BOGO discounts interchangeable.</div><span class="diff d-med">Medium</span></div>
+            <div class="q-row" onclick="toggleQ(this)"><div class="q-box"></div><div class="q-text">Implement undo/redo for a text editor using the Command pattern.</div><span class="diff d-med">Medium</span></div>
+            <div class="q-row" onclick="toggleQ(this)"><div class="q-box"></div><div class="q-text">Model a Vending Machine using the State pattern — idle, selecting, dispensing, out-of-stock states.</div><span class="diff d-hard">Hard</span></div>
+            <div class="q-row" onclick="toggleQ(this)"><div class="q-box"></div><div class="q-text">Design an HTTP middleware pipeline using Chain of Responsibility — auth, rate limit, logging, caching.</div><span class="diff d-hard">Hard</span></div>
+          </div>
+          <div class="tip-box">
+            <h4>// Phase 2 Checkpoint</h4>
+            <ul>
+              <li>For every pattern: name it, draw the class diagram, give a real-world use case in 60 seconds</li>
+              <li>Distinguish: when NOT to use a pattern is as important as when to use it</li>
+              <li>Know which patterns address which SOLID principle violations</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PHASE 3 — CLASS DIAGRAMS & SYSTEMS (Days 36–50)
+  ══════════════════════════════════════════ -->
+  <div class="phase-content phase-3" id="phase-2">
+    <div class="phase-header">
+      <div class="phase-title-group">
+        <div class="phase-eyebrow">Phase Three · Days 36–50</div>
+        <div class="phase-title">UML, Class Diagrams & System LLD</div>
+      </div>
+      <div class="phase-pill">DAYS 36–50</div>
+    </div>
+    <div class="week-grid">
+
+      <div class="week-card" id="wk-7">
+        <div class="week-header" onclick="toggleWeek('wk-7')">
+          <span class="week-day-range">DAYS 36–39</span>
+          <span class="week-title">UML & Class Diagram Mastery</span>
+          <span class="week-progress-mini" id="p-wk-7">0/0</span>
+          <span class="week-caret">▼</span>
+        </div>
+        <div class="week-body">
+          <div class="section-heading">📚 Topics to Cover</div>
+          <div class="topic-row" onclick="toggleTopic(this)"><div class="t-box"></div><div class="t-text">Class diagram notation — attributes, methods, visibility (+/-/#), static members</div></div>
+          <div class="topic-row" onclick="toggleTopic(this)"><div class="t-box"></div><div class="t-text">Relationships in UML — Association, Aggregation, Composition, Inheritance, Realization</div></div>
+          <div class="topic-row" onclick="toggleTopic(this)"><div class="t-box"></div><div class="t-text">Sequence diagrams — showing interactions over time, method call flow</div></div>
+          <div class="topic-row" onclick="toggleTopic(this)"><div class="t-box"></div><div class="t-text">Use Case diagrams — actors, use cases, include/extend relationships</div></div>
+          <div class="topic-row" onclick="toggleTopic(this)"><div class="t-box"></div><div class="t-text">Multiplicity notation — 1:1, 1:N, M:N and what they mean in code</div></div>
+
+          <div class="section-heading">❓ Practice Problems</div>
+          <div class="q-list">
+            <div class="q-row" onclick="toggleQ(this)"><div class="q-box"></div><div class="q-text">Draw the class diagram for a Library Management System — Book, Member, Librarian, Loan.</div><span class="diff d-easy">Easy</span></div>
+            <div class="q-row" onclick="toggleQ(this)"><div class="q-box"></div><div class="q-text">Draw a sequence diagram for a user placing an order — from UI to DB write.</div><span class="diff d-med">Medium</span></div>
+            <div class="q-row" onclick="toggleQ(this)"><div class="q-box"></div><div class="q-text">Model a Hospital system — Patient, Doctor, Appointment, Prescription, Ward with correct UML relationships.</div><span class="diff d-hard">Hard</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="week-card" id="wk-8">
+        <div class="week-header" onclick="toggleWeek('wk-8')">
+          <span class="week-day-range">DAYS 40–44</span>
+          <span class="week-title">Concurrency in OOP Design</span>
+          <span class="week-progress-mini" id="p-wk-8">0/0</span>
+          <span class="week-caret">▼</span>
+        </div>
+        <div class="week-body">
+          <div class="section-heading">📚 Topics to Cover</div>
+          <div class="topic-row" onclick="toggleTopic(this)"><div class="t-box"></div><div class="t-text">Thread-safe class design — synchronized methods, volatile, atomic classes</div></div>
+          <div class="topic-row" onclick="toggleTopic(this)"><div class="t-box"></div><div class="t-text">Immutability as a thread-safety technique — final fields, immutable value objects</div></div>
+          <div class="topic-row" onclick="toggleTopic(this)"><div class="t-box"></div><div class="t-text">Locks — ReentrantLock, ReadWriteLock, StampedLock tradeoffs</div></div>
+          <div class="topic-row" onclick="toggleTopic(this)"><div class="t-box"></div><div class="t-text">Deadlock — conditions (CHNE), prevention, detection strategies</div></div>
+          <div class="topic-row" onclick="toggleTopic(this)"><div class="t-box"></div><div class="t-text">Producer-Consumer pattern — BlockingQueue, semaphore-based implementation</div></div>
+          <div class="topic-row" onclick="toggleTopic(this)"><div class="t-box"></div><div class="t-text">Actor model vs shared-state concurrency (conceptual)</div></div>
+
+          <div class="section-heading">❓ Practice Problems</div>
+          <div class="q-list">
+            <div class="q-row" onclick="toggleQ(this)"><div class="q-box"></div><div class="q-text">Implement a thread-safe Bounded Blocking Queue from scratch without using Java's BlockingQueue.</div><span class="diff d-hard">Hard</span></div>
+            <div class="q-row" onclick="toggleQ(this)"><div class="q-box"></div><div class="q-text">Design a thread-safe LRU Cache with O(1) get/put using LinkedHashMap or doubly linked list + HashMap.</div><span class="diff d-hard">Hard</span></div>
+            <div class="q-row" onclick="toggleQ(this)"><div class="q-box"></div><div class="q-text">Implement a Read-Write Lock that allows multiple concurrent readers but exclusive writers.</div><span class="diff d-hard">Hard</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="week-card" id="wk-9">
+        <div class="week-header" onclick="toggleWeek('wk-9')">
+          <span class="week-day-range">DAYS 45–50</span>
+          <span class="week-title">Data Structures for LLD — Custom Implementations</span>
+          <span class="week-progress-mini" id="p-wk-9">0/0</span>
+          <span class="week-caret">▼</span>
+        </div>
+        <div class="week-body">
+          <div class="section-heading">📚 Topics to Cover</div>
+          <div class="topic-row" onclick="toggleTopic(this)"><div class="t-box"></div><div class="t-text">Designing custom collections — Iterator pattern, generic data structures</div></div>
+          <div class="topic-row" onclick="toggleTopic(this)"><div class="t-box"></div><div class="t-text">Trie implementation — autocomplete, word search, prefix matching</div></div>
+          <div class="topic-row" onclick="toggleTopic(this)"><div class="t-box"></div><div class="t-text">LRU / LFU Cache — doubly linked list + HashMap, full class design</div></div>
+          <div class="topic-row" onclick="toggleTopic(this)"><div class="t-box"></div><div class="t-text">Priority Queue custom implementation — min-heap class with generics and comparator</div></div>
+          <div class="topic-row" onclick="toggleTopic(this)"><div class="t-box"></div><div class="t-text">Event bus / pub-sub in-process — typed event system design</div></div>
+
+          <div class="section-heading">❓ Practice Problems</div>
+          <div class="q-list">
+            <div class="q-row" onclick="toggleQ(this)"><div class="q-box"></div><div class="q-text">Implement a fully generic LRU Cache class with proper encapsulation and O(1) operations.</div><span class="diff d-hard">Hard</span></div>
+            <div class="q-row" onclick="toggleQ(this)"><div class="q-box"></div><div class="q-text">Design an in-memory key-value store with TTL expiry and pub-sub notification on key change.</div><span class="diff d-hard">Hard</span></div>
+            <div class="q-row" onclick="toggleQ(this)"><div class="q-box"></div><div class="q-text">Implement a Trie with insert, search, startsWith, and delete — used as a class inside an Autocomplete system.</div><span class="diff d-med">Medium</span></div>
+          </div>
+          <div class="tip-box">
+            <h4>// Phase 3 Checkpoint</h4>
+            <ul>
+              <li>You should be able to draw any class diagram in 5 minutes on a whiteboard</li>
+              <li>Every concurrency design must mention: thread safety guarantee + performance tradeoff</li>
+              <li>Practice writing boilerplate-free production-quality class code, not pseudocode</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PHASE 4 — MOCK LLD PROBLEMS (Days 51–60)
+  ══════════════════════════════════════════ -->
+  <div class="phase-content phase-4" id="phase-3">
+    <div class="phase-header">
+      <div class="phase-title-group">
+        <div class="phase-eyebrow">Phase Four · Days 51–60</div>
+        <div class="phase-title">Full LLD Mock Problems & Mastery</div>
+      </div>
+      <div class="phase-pill">DAYS 51–60</div>
+    </div>
+    <div class="week-grid">
+
+      <div class="week-card" id="wk-10">
+        <div class="week-header" onclick="toggleWeek('wk-10')">
+          <span class="week-day-range">DAYS 51–53</span>
+          <span class="week-title">Classic LLD Problems — Everyday Systems</span>
+          <span class="week-progress-mini" id="p-wk-10">0/0</span>
+          <span class="week-caret">▼</span>
+        </div>
+        <div class="week-body">
+          <div class="section-heading">📚 Topics to Cover</div>
+          <div class="topic-row" onclick="toggleTopic(this)"><div class="t-box"></div><div class="t-text">Parking Lot — ParkingSpot types, ParkingTicket, Gates, Fee calculation strategy</div></div>
+          <div class="topic-row" onclick="toggleTopic(this)"><div class="t-box"></div><div class="t-text">Elevator System — ElevatorController, scheduling algorithms (SCAN, LOOK), multi-elevator</div></div>
+          <div class="topic-row" onclick="toggleTopic(this)"><div class="t-box"></div><div class="t-text">Snake & Ladder / Chess — Board, Piece polymorphism, Game state, move validation</div></div>
+
+          <div class="section-heading">❓ Full LLD Problems (40 min each)</div>
+          <div class="q-list">
+            <div class="q-row" onclick="toggleQ(this)"><div class="q-box"></div><div class="q-text">DESIGN: Parking Lot — multi-floor, 3 vehicle types, dynamic pricing, full class diagram + code.</div><span class="diff d-design">Full LLD</span></div>
+            <div class="q-row" onclick="toggleQ(this)"><div class="q-box"></div><div class="q-text">DESIGN: Elevator System — 3 elevators, 20 floors, optimal scheduling, handle concurrent requests.</div><span class="diff d-design">Full LLD</span></div>
+            <div class="q-row" onclick="toggleQ(this)"><div class="q-box"></div><div class="q-text">DESIGN: Chess — all piece types, move validation, check/checkmate detection, game history.</div><span class="diff d-design">Full LLD</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="week-card" id="wk-11">
+        <div class="week-header" onclick="toggleWeek('wk-11')">
+          <span class="week-day-range">DAYS 54–56</span>
+          <span class="week-title">Product & Commerce LLD Problems</span>
+          <span class="week-progress-mini" id="p-wk-11">0/0</span>
+          <span class="week-caret">▼</span>
+        </div>
+        <div class="week-body">
+          <div class="section-heading">📚 Topics to Cover</div>
+          <div class="topic-row" onclick="toggleTopic(this)"><div class="t-box"></div><div class="t-text">E-commerce Cart & Checkout — Product, Cart, Order, Payment, Coupon class hierarchy</div></div>
+          <div class="topic-row" onclick="toggleTopic(this)"><div class="t-box"></div><div class="t-text">Hotel / Movie Booking — Room/Seat, Reservation, availability calendar, conflict prevention</div></div>
+          <div class="topic-row" onclick="toggleTopic(this)"><div class="t-box"></div><div class="t-text">ATM Machine — Card, Account, Transaction, states, security, extensible cash dispensing</div></div>
+
+          <div class="section-heading">❓ Full LLD Problems (40 min each)</div>
+          <div class="q-list">
+            <div class="q-row" onclick="toggleQ(this)"><div class="q-box"></div><div class="q-text">DESIGN: Amazon Shopping Cart — add/remove items, apply coupons, checkout, payment gateway abstraction.</div><span class="diff d-design">Full LLD</span></div>
+            <div class="q-row" onclick="toggleQ(this)"><div class="q-box"></div><div class="q-text">DESIGN: BookMyShow seat booking — show, seat types, booking, payment, cancellation with concurrency.</div><span class="diff d-design">Full LLD</span></div>
+            <div class="q-row" onclick="toggleQ(this)"><div class="q-box"></div><div class="q-text">DESIGN: ATM Machine — full state machine, card auth, withdrawal limits, transaction rollback.</div><span class="diff d-design">Full LLD</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="week-card" id="wk-12">
+        <div class="week-header" onclick="toggleWeek('wk-12')">
+          <span class="week-day-range">DAYS 57–58</span>
+          <span class="week-title">Software Tool & Platform LLD Problems</span>
+          <span class="week-progress-mini" id="p-wk-12">0/0</span>
+          <span class="week-caret">▼</span>
+        </div>
+        <div class="week-body">
+          <div class="section-heading">📚 Topics to Cover</div>
+          <div class="topic-row" onclick="toggleTopic(this)"><div class="t-box"></div><div class="t-text">Logging Framework — Logger, Appenders, Formatters, log levels, async logging</div></div>
+          <div class="topic-row" onclick="toggleTopic(this)"><div class="t-box"></div><div class="t-text">Notification System — multi-channel (email/SMS/push), templates, retry, user preferences</div></div>
+          <div class="topic-row" onclick="toggleTopic(this)"><div class="t-box"></div><div class="t-text">Task Scheduler — cron-like job scheduling, priority queues, retry policies</div></div>
+
+          <div class="section-heading">❓ Full LLD Problems (40 min each)</div>
+          <div class="q-list">
+            <div class="q-row" onclick="toggleQ(this)"><div class="q-box"></div><div class="q-text">DESIGN: Logging Framework like Log4j — Logger hierarchy, appenders, async handler, level filtering.</div><span class="diff d-design">Full LLD</span></div>
+            <div class="q-row" onclick="toggleQ(this)"><div class="q-box"></div><div class="q-text">DESIGN: Ride-sharing (Uber) — Driver, Rider, Trip, matching algorithm, fare calculation, ratings.</div><span class="diff d-design">Full LLD</span></div>
+            <div class="q-row" onclick="toggleQ(this)"><div class="q-box"></div><div class="q-text">DESIGN: Food Delivery (Zomato) — Restaurant, Menu, Order, DeliveryAgent, real-time status.</div><span class="diff d-design">Full LLD</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="week-card" id="wk-13">
+        <div class="week-header" onclick="toggleWeek('wk-13')">
+          <span class="week-day-range">DAYS 59–60</span>
+          <span class="week-title">Senior Mindset — Interview Strategy & Final Polish</span>
+          <span class="week-progress-mini" id="p-wk-13">0/0</span>
+          <span class="week-caret">▼</span>
+        </div>
+        <div class="week-body">
+          <div class="section-heading">📚 Final Review Checklist</div>
+          <div class="topic-row" onclick="toggleTopic(this)"><div class="t-box"></div><div class="t-text">Review all 23 GoF patterns — name, intent, and a real use case for each in 30 seconds</div></div>
+          <div class="topic-row" onclick="toggleTopic(this)"><div class="t-box"></div><div class="t-text">Practice 5 full LLD designs timed at 40 minutes with class diagram + core code</div></div>
+          <div class="topic-row" onclick="toggleTopic(this)"><div class="t-box"></div><div class="t-text">Drill SOLID — given any code snippet, identify violations and propose a fix instantly</div></div>
+          <div class="topic-row" onclick="toggleTopic(this)"><div class="t-box"></div><div class="t-text">Articulate extensibility for every design — "to add X, I only change/add Y"</div></div>
+          <div class="topic-row" onclick="toggleTopic(this)"><div class="t-box"></div><div class="t-text">Practice explaining your class design out loud — narrate every choice and tradeoff</div></div>
+
+          <div class="section-heading">❓ Senior Behavioural Questions</div>
+          <div class="q-list">
+            <div class="q-row" onclick="toggleQ(this)"><div class="q-box"></div><div class="q-text">Walk me through the most complex class hierarchy you've designed. What tradeoffs did you make?</div><span class="diff d-med">Behavioural</span></div>
+            <div class="q-row" onclick="toggleQ(this)"><div class="q-box"></div><div class="q-text">How do you decide between using a design pattern vs a simpler solution? When is a pattern overkill?</div><span class="diff d-med">Behavioural</span></div>
+            <div class="q-row" onclick="toggleQ(this)"><div class="q-box"></div><div class="q-text">Your team's codebase violates OCP everywhere. How do you propose and execute a refactor without stopping feature delivery?</div><span class="diff d-hard">Hard</span></div>
+          </div>
+          <div class="tip-box">
+            <h4>// Final Week Mantra</h4>
+            <ul>
+              <li>Always start with requirements — functional AND non-functional (concurrency, extensibility)</li>
+              <li>Draw classes first, code second — interviewers value design clarity over implementation speed</li>
+              <li>Name every pattern you're using — "I'm applying Strategy here because..."</li>
+              <li>Show extensibility: "To add a new payment method, I only add a new Strategy subclass"</li>
+              <li>Senior bar = you spot design flaws proactively without being asked</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const KEY = 'lld_roadmap_v1';
+  const state = JSON.parse(localStorage.getItem(KEY) || '{"t":{},"q":{}}');
+
+  function save() { localStorage.setItem(KEY, JSON.stringify(state)); }
+
+  function updateStats() {
+    const allT = document.querySelectorAll('.topic-row');
+    const allQ = document.querySelectorAll('.q-row');
+    const dT = document.querySelectorAll('.topic-row.checked').length;
+    const dQ = document.querySelectorAll('.q-row.done').length;
+    const total = allT.length + allQ.length;
+    const done = dT + dQ;
+    const pct = total ? Math.round((done / total) * 100) : 0;
+
+    document.getElementById('s-topics').textContent = dT;
+    document.getElementById('s-qs').textContent = dQ;
+    document.getElementById('s-pct').textContent = pct + '%';
+    document.getElementById('bar-fill').style.width = pct + '%';
+    document.getElementById('bar-text').textContent = done + ' / ' + total;
+
+    document.querySelectorAll('.week-card').forEach(card => {
+      const id = card.id;
+      const t = card.querySelectorAll('.topic-row').length;
+      const q = card.querySelectorAll('.q-row').length;
+      const dt = card.querySelectorAll('.topic-row.checked').length;
+      const dq = card.querySelectorAll('.q-row.done').length;
+      const el = document.getElementById('p-' + id);
+      if (el) el.textContent = (dt + dq) + '/' + (t + q);
+    });
+  }
+
+  function getKey(el, prefix) {
+    const cardId = el.closest('.week-card').id;
+    const txt = (el.querySelector('.t-text') || el.querySelector('.q-text')).textContent.slice(0, 40);
+    return cardId + '_' + prefix + '_' + txt;
+  }
+
+  function toggleTopic(el) {
+    el.classList.toggle('checked');
+    state.t[getKey(el, 't')] = el.classList.contains('checked');
+    save(); updateStats();
+  }
+
+  function toggleQ(el) {
+    el.classList.toggle('done');
+    state.q[getKey(el, 'q')] = el.classList.contains('done');
+    save(); updateStats();
+  }
+
+  function toggleWeek(id) {
+    document.getElementById(id).classList.toggle('open');
+  }
+
+  function showPhase(index) {
+    document.querySelectorAll('.phase-content').forEach((el, i) => el.classList.toggle('active', i === index));
+    document.querySelectorAll('.phase-btn').forEach((btn, i) => btn.classList.toggle('active', i === index));
+  }
+
+  // Restore saved state
+  window.addEventListener('load', () => {
+    document.querySelectorAll('.topic-row').forEach(el => {
+      const k = getKey(el, 't');
+      if (state.t[k]) el.classList.add('checked');
+    });
+    document.querySelectorAll('.q-row').forEach(el => {
+      const k = getKey(el, 'q');
+      if (state.q[k]) el.classList.add('done');
+    });
+    updateStats();
+  });
+</script>
+</body>
+</html>
