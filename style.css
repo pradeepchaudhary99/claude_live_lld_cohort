@@ -217,6 +217,7 @@ strong { color: #fff; }
   font-weight: 900;
   line-height: 1.15;
   margin-bottom: 20px;
+  text-align: center;
 }
 .hero__sub {
   font-size: 1.05rem;
