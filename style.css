@@ -1028,4 +1028,41 @@ strong { color: #fff; }
   .countdown-bar__inner { flex-direction: column; gap: 12px; text-align: center; }
   .pricing__card { padding: 28px 20px; }
   .footer__inner { flex-direction: column; text-align: center; }
+  .pt-card { width: 280px; }
 }
+
+/* ── Pricing-section testimonials strip ── */
+.pricing-testimonials {
+  margin-top: 72px;
+  padding-top: 56px;
+  border-top: 1px solid var(--border);
+}
+.pricing-testimonials__track-wrap {
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+}
+.pricing-testimonials__track {
+  display: flex;
+  gap: 20px;
+  width: max-content;
+  animation: pt-scroll 40s linear infinite;
+}
+.pricing-testimonials__track:hover { animation-play-state: paused; }
+@keyframes pt-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.pt-card {
+  width: 320px;
+  flex-shrink: 0;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.pt-card__stars { color: #fbbf24; font-size: 1rem; letter-spacing: 2px; }
+.pt-card p { font-size: .9rem; color: var(--text-muted); line-height: 1.7; font-style: italic; }
