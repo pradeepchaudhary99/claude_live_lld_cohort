@@ -20,6 +20,177 @@
 
 html { scroll-behavior: smooth; font-size: 16px; }
 
+/* ── Launch Banner ── */
+.launch-banner {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #0a0f1e 0%, #0d1527 40%, #0f1a30 100%);
+  border-bottom: 1px solid rgba(34,211,238,0.2);
+  padding: 40px 24px 48px;
+}
+
+.launch-banner__glow {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 80% at 20% 50%, rgba(34,211,238,0.07) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 60% at 80% 30%, rgba(129,140,248,0.07) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 50% at 50% 100%, rgba(244,114,182,0.05) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.launch-banner__close {
+  position: absolute;
+  top: 14px;
+  right: 18px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: var(--text-muted);
+  font-size: .85rem;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background .2s, color .2s;
+  z-index: 10;
+}
+.launch-banner__close:hover { background: rgba(255,255,255,0.12); color: #fff; }
+
+.launch-banner__inner {
+  max-width: 1120px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+
+.launch-banner__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: .7rem;
+  font-weight: 800;
+  letter-spacing: .14em;
+  color: var(--cyan);
+  background: rgba(34,211,238,0.1);
+  border: 1px solid rgba(34,211,238,0.25);
+  padding: 5px 14px;
+  border-radius: 99px;
+  margin-bottom: 24px;
+  animation: pulse-badge 2s ease-in-out infinite;
+}
+
+.launch-badge-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--cyan);
+  animation: blink-dot 1.2s ease-in-out infinite;
+}
+
+@keyframes blink-dot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+@keyframes pulse-badge {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(34,211,238,0); }
+  50% { box-shadow: 0 0 0 6px rgba(34,211,238,0.08); }
+}
+
+.launch-banner__content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: center;
+}
+
+.launch-banner__img-wrap {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 48px rgba(0,0,0,0.6), 0 0 0 1px rgba(34,211,238,0.15);
+  animation: float-img 5s ease-in-out infinite;
+}
+
+@keyframes float-img {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-6px); }
+}
+
+.launch-banner__img {
+  width: 100%;
+  display: block;
+  border-radius: 16px;
+}
+
+.launch-banner__img-shine {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.06) 0%, transparent 50%, rgba(34,211,238,0.04) 100%);
+  pointer-events: none;
+}
+
+.launch-banner__text { display: flex; flex-direction: column; gap: 16px; }
+
+.launch-banner__title {
+  font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+  font-weight: 900;
+  line-height: 1.2;
+  color: #fff;
+}
+
+.launch-highlight {
+  background: linear-gradient(90deg, var(--cyan), var(--indigo));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.launch-banner__desc {
+  font-size: 1rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  max-width: 480px;
+}
+
+.launch-banner__actions {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+.launch-banner__cta {
+  animation: cta-glow 2.5s ease-in-out infinite;
+}
+
+@keyframes cta-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(34,211,238,0); }
+  50% { box-shadow: 0 0 20px 4px rgba(34,211,238,0.25); }
+}
+
+.launch-banner__seats {
+  font-size: .85rem;
+  font-weight: 600;
+  color: var(--orange);
+  background: rgba(251,146,60,0.1);
+  border: 1px solid rgba(251,146,60,0.2);
+  padding: 6px 14px;
+  border-radius: 99px;
+}
+
+@media (max-width: 768px) {
+  .launch-banner__content {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  .launch-banner__title { font-size: 1.5rem; }
+}
+
 body {
   font-family: 'Inter', sans-serif;
   background: var(--bg);

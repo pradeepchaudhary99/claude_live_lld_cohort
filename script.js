@@ -1,3 +1,26 @@
+// Launch banner close
+const launchBanner = document.getElementById('launchBanner');
+const launchBannerClose = document.getElementById('launchBannerClose');
+const launchBannerCTA = document.getElementById('launchBannerCTA');
+if (launchBannerClose) {
+  launchBannerClose.addEventListener('click', () => {
+    launchBanner.style.transition = 'opacity .3s, max-height .4s, padding .4s';
+    launchBanner.style.opacity = '0';
+    launchBanner.style.maxHeight = '0';
+    launchBanner.style.padding = '0';
+    launchBanner.style.overflow = 'hidden';
+  });
+}
+if (launchBannerCTA) {
+  launchBannerCTA.addEventListener('click', () => {
+    launchBanner.style.transition = 'opacity .3s, max-height .4s, padding .4s';
+    launchBanner.style.opacity = '0';
+    launchBanner.style.maxHeight = '0';
+    launchBanner.style.padding = '0';
+    launchBanner.style.overflow = 'hidden';
+  });
+}
+
 // Nav scroll effect
 const nav = document.getElementById('nav');
 window.addEventListener('scroll', () => {
