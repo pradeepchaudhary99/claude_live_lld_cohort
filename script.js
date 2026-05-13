@@ -1,3 +1,59 @@
+// Enrollment notification popup
+(function () {
+  const cities = [
+    'Mumbai', 'Bangalore', 'Delhi', 'Hyderabad', 'Pune', 'Chennai',
+    'Kolkata', 'Ahmedabad', 'Jaipur', 'Noida', 'Gurgaon', 'Indore',
+    'Chandigarh', 'Bhopal', 'Lucknow', 'Surat', 'Kochi', 'Coimbatore',
+    'New York', 'San Francisco', 'Seattle', 'Austin', 'Chicago', 'Boston',
+    'Toronto', 'Vancouver', 'Calgary', 'London', 'Dubai', 'Singapore',
+    'Sydney', 'Berlin', 'Amsterdam',
+  ];
+  const flags = {
+    'New York': '🇺🇸', 'San Francisco': '🇺🇸', 'Seattle': '🇺🇸',
+    'Austin': '🇺🇸', 'Chicago': '🇺🇸', 'Boston': '🇺🇸',
+    'Toronto': '🇨🇦', 'Vancouver': '🇨🇦', 'Calgary': '🇨🇦',
+    'London': '🇬🇧', 'Dubai': '🇦🇪', 'Singapore': '🇸🇬',
+    'Sydney': '🇦🇺', 'Berlin': '🇩🇪', 'Amsterdam': '🇳🇱',
+  };
+
+  const el = document.createElement('div');
+  el.id = 'enroll-popup';
+  el.innerHTML = `
+    <div class="enroll-popup__icon">🎓</div>
+    <div class="enroll-popup__body">
+      <span class="enroll-popup__tag">Just Enrolled</span>
+      <p class="enroll-popup__city"></p>
+    </div>
+    <div class="enroll-popup__pulse"></div>
+  `;
+  document.body.appendChild(el);
+
+  const cityEl = el.querySelector('.enroll-popup__city');
+  let shown = [];
+
+  function pickCity() {
+    if (shown.length === cities.length) shown = [];
+    let city;
+    do { city = cities[Math.floor(Math.random() * cities.length)]; } while (shown.includes(city));
+    shown.push(city);
+    return city;
+  }
+
+  function show() {
+    const city = pickCity();
+    const flag = flags[city] || '🇮🇳';
+    cityEl.textContent = flag + ' ' + city;
+    el.classList.add('visible');
+    setTimeout(() => el.classList.remove('visible'), 3800);
+  }
+
+  // Start after 4s, then every 6–10s
+  setTimeout(() => {
+    show();
+    setInterval(show, Math.random() * 4000 + 6000);
+  }, 4000);
+})();
+
 // Confetti celebration
 (function () {
   const canvas = document.createElement('canvas');
