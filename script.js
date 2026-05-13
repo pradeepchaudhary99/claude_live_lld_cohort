@@ -1,3 +1,92 @@
+// Confetti celebration
+(function () {
+  const canvas = document.createElement('canvas');
+  canvas.id = 'confetti-canvas';
+  canvas.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999;';
+  document.body.prepend(canvas);
+  const ctx = canvas.getContext('2d');
+
+  const COLORS = ['#22d3ee','#818cf8','#f472b6','#fb923c','#4ade80','#facc15','#fff','#f87171'];
+  const SHAPES = ['rect','circle','ribbon'];
+  const TOTAL = 180;
+  let particles = [];
+  let animId;
+
+  function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+  resize();
+  window.addEventListener('resize', resize);
+
+  function rand(a, b) { return Math.random() * (b - a) + a; }
+  function randItem(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
+  function spawn() {
+    for (let i = 0; i < TOTAL; i++) {
+      const angle = rand(-0.5, Math.PI + 0.5);
+      const speed = rand(4, 14);
+      particles.push({
+        x: rand(canvas.width * 0.1, canvas.width * 0.9),
+        y: rand(-20, 0),
+        vx: Math.cos(angle) * rand(1, 4) * (Math.random() > 0.5 ? 1 : -1),
+        vy: speed,
+        rot: rand(0, Math.PI * 2),
+        rotV: rand(-0.12, 0.12),
+        w: rand(7, 14),
+        h: rand(4, 9),
+        color: randItem(COLORS),
+        shape: randItem(SHAPES),
+        alpha: 1,
+        gravity: rand(0.12, 0.22),
+        wobble: rand(0, Math.PI * 2),
+        wobbleV: rand(0.05, 0.12),
+      });
+    }
+  }
+
+  function drawParticle(p) {
+    ctx.save();
+    ctx.globalAlpha = p.alpha;
+    ctx.translate(p.x, p.y);
+    ctx.rotate(p.rot);
+    ctx.fillStyle = p.color;
+    if (p.shape === 'circle') {
+      ctx.beginPath();
+      ctx.arc(0, 0, p.w / 2, 0, Math.PI * 2);
+      ctx.fill();
+    } else if (p.shape === 'ribbon') {
+      ctx.fillRect(-p.w / 2, -p.h / 8, p.w, p.h / 4);
+    } else {
+      ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+    }
+    ctx.restore();
+  }
+
+  function tick() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach(p => {
+      p.wobble += p.wobbleV;
+      p.x += p.vx + Math.sin(p.wobble) * 0.8;
+      p.vy += p.gravity;
+      p.y += p.vy;
+      p.rot += p.rotV;
+      if (p.y > canvas.height * 0.6) p.alpha -= 0.018;
+      drawParticle(p);
+    });
+    particles = particles.filter(p => p.alpha > 0);
+    if (particles.length > 0) {
+      animId = requestAnimationFrame(tick);
+    } else {
+      canvas.remove();
+    }
+  }
+
+  // First burst on load
+  spawn();
+  animId = requestAnimationFrame(tick);
+
+  // Second burst after 800ms for extra pop
+  setTimeout(() => { spawn(); }, 800);
+})();
+
 // Launch banner close
 const launchBanner = document.getElementById('launchBanner');
 const launchBannerClose = document.getElementById('launchBannerClose');
