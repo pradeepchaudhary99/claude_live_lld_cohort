@@ -1,53 +1,68 @@
 // Enrollment notification popup
 (function () {
-  const cities = [
-    'Mumbai', 'Bangalore', 'Delhi', 'Hyderabad', 'Pune', 'Chennai',
-    'Kolkata', 'Ahmedabad', 'Jaipur', 'Noida', 'Gurgaon', 'Indore',
-    'Chandigarh', 'Bhopal', 'Lucknow', 'Surat', 'Kochi', 'Coimbatore',
-    'New York', 'San Francisco', 'Seattle', 'Austin', 'Chicago', 'Boston',
-    'Toronto', 'Vancouver', 'Calgary', 'London', 'Dubai', 'Singapore',
-    'Sydney', 'Berlin', 'Amsterdam',
+  // 80% India, 20% international
+  const india = [
+    { city: 'Mumbai',      country: 'India',  flag: '🇮🇳' },
+    { city: 'Bangalore',   country: 'India',  flag: '🇮🇳' },
+    { city: 'Delhi',       country: 'India',  flag: '🇮🇳' },
+    { city: 'Hyderabad',   country: 'India',  flag: '🇮🇳' },
+    { city: 'Pune',        country: 'India',  flag: '🇮🇳' },
+    { city: 'Chennai',     country: 'India',  flag: '🇮🇳' },
+    { city: 'Kolkata',     country: 'India',  flag: '🇮🇳' },
+    { city: 'Ahmedabad',   country: 'India',  flag: '🇮🇳' },
+    { city: 'Jaipur',      country: 'India',  flag: '🇮🇳' },
+    { city: 'Noida',       country: 'India',  flag: '🇮🇳' },
+    { city: 'Gurgaon',     country: 'India',  flag: '🇮🇳' },
+    { city: 'Indore',      country: 'India',  flag: '🇮🇳' },
+    { city: 'Chandigarh',  country: 'India',  flag: '🇮🇳' },
+    { city: 'Lucknow',     country: 'India',  flag: '🇮🇳' },
+    { city: 'Kochi',       country: 'India',  flag: '🇮🇳' },
+    { city: 'Coimbatore',  country: 'India',  flag: '🇮🇳' },
   ];
-  const flags = {
-    'New York': '🇺🇸', 'San Francisco': '🇺🇸', 'Seattle': '🇺🇸',
-    'Austin': '🇺🇸', 'Chicago': '🇺🇸', 'Boston': '🇺🇸',
-    'Toronto': '🇨🇦', 'Vancouver': '🇨🇦', 'Calgary': '🇨🇦',
-    'London': '🇬🇧', 'Dubai': '🇦🇪', 'Singapore': '🇸🇬',
-    'Sydney': '🇦🇺', 'Berlin': '🇩🇪', 'Amsterdam': '🇳🇱',
-  };
+  const intl = [
+    { city: 'New York',       country: 'USA',    flag: '🇺🇸' },
+    { city: 'San Francisco',  country: 'USA',    flag: '🇺🇸' },
+    { city: 'Seattle',        country: 'USA',    flag: '🇺🇸' },
+    { city: 'Toronto',        country: 'Canada', flag: '🇨🇦' },
+    { city: 'Vancouver',      country: 'Canada', flag: '🇨🇦' },
+    { city: 'London',         country: 'UK',     flag: '🇬🇧' },
+    { city: 'Manchester',     country: 'UK',     flag: '🇬🇧' },
+  ];
+
+  // Build weighted pool: repeat india 4x, intl 1x → ~80/20 split
+  const pool = [...india, ...india, ...india, ...india, ...intl];
 
   const el = document.createElement('div');
   el.id = 'enroll-popup';
   el.innerHTML = `
     <div class="enroll-popup__icon">🎓</div>
     <div class="enroll-popup__body">
-      <span class="enroll-popup__tag">Just Enrolled</span>
+      <span class="enroll-popup__tag"></span>
       <p class="enroll-popup__city"></p>
     </div>
     <div class="enroll-popup__pulse"></div>
   `;
   document.body.appendChild(el);
 
+  const tagEl  = el.querySelector('.enroll-popup__tag');
   const cityEl = el.querySelector('.enroll-popup__city');
-  let shown = [];
+  let lastCity = null;
 
-  function pickCity() {
-    if (shown.length === cities.length) shown = [];
-    let city;
-    do { city = cities[Math.floor(Math.random() * cities.length)]; } while (shown.includes(city));
-    shown.push(city);
-    return city;
+  function pick() {
+    let entry;
+    do { entry = pool[Math.floor(Math.random() * pool.length)]; } while (entry.city === lastCity);
+    lastCity = entry.city;
+    return entry;
   }
 
   function show() {
-    const city = pickCity();
-    const flag = flags[city] || '🇮🇳';
-    cityEl.textContent = flag + ' ' + city;
+    const { city, country, flag } = pick();
+    tagEl.textContent  = `Enrolled from ${country}`;
+    cityEl.textContent = `${flag} ${city}`;
     el.classList.add('visible');
     setTimeout(() => el.classList.remove('visible'), 3800);
   }
 
-  // Start after 4s, then every 6–10s
   setTimeout(() => {
     show();
     setInterval(show, Math.random() * 4000 + 6000);
